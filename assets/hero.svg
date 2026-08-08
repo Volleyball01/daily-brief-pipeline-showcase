@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 420" role="img" aria-labelledby="hero-title hero-desc">
+  <title id="hero-title">Daily Brief Pipeline</title>
+  <desc id="hero-desc">Verified evidence in. Explicit approval out. A four-stage pipeline from Collector, Evidence, Writer to guarded Delivery.</desc>
+  <rect width="1000" height="420" fill="#FBFAF7"/>
+  <g font-family="ui-monospace, 'Cascadia Mono', Consolas, monospace">
+    <text x="56" y="52" font-size="12" letter-spacing="3" fill="#6B747A">PUBLIC ENGINEERING SHOWCASE — AGENT AUTOMATION</text>
+    <text x="944" y="52" font-size="12" letter-spacing="2" text-anchor="end" fill="#6B747A">PRIVATE PRODUCTION · PUBLIC EVIDENCE</text>
+  </g>
+  <line x1="56" y1="76" x2="944" y2="76" stroke="#D6D2C9"/>
+  <g font-family="Georgia, 'Times New Roman', serif" fill="#232A2F">
+    <text x="56" y="150" font-size="46">Verified evidence in.</text>
+    <text x="56" y="206" font-size="46">Explicit approval out.</text>
+  </g>
+  <text x="58" y="250" font-family="ui-monospace, 'Cascadia Mono', Consolas, monospace" font-size="14" fill="#4A5258">A four-stage pipeline that turns a one-shot AI task into a daily, guarded delivery.</text>
+  <line x1="56" y1="286" x2="944" y2="286" stroke="#D6D2C9"/>
+  <g font-family="ui-monospace, 'Cascadia Mono', Consolas, monospace">
+    <rect x="56" y="320" width="180" height="76" rx="2" fill="#F1EEE7" stroke="#D6D2C9"/>
+    <text x="146" y="352" text-anchor="middle" font-size="13" fill="#232A2F">COLLECTOR</text>
+    <text x="146" y="374" text-anchor="middle" font-size="10" fill="#6B747A">search · verify · evidence</text>
+    <rect x="286" y="320" width="180" height="76" rx="2" fill="#F1EEE7" stroke="#D6D2C9"/>
+    <text x="376" y="352" text-anchor="middle" font-size="13" fill="#232A2F">EVIDENCE</text>
+    <text x="376" y="374" text-anchor="middle" font-size="10" fill="#6B747A">structured JSON handoff</text>
+    <rect x="516" y="320" width="180" height="76" rx="2" fill="#F1EEE7" stroke="#D6D2C9"/>
+    <text x="606" y="352" text-anchor="middle" font-size="13" fill="#232A2F">WRITER</text>
+    <text x="606" y="374" text-anchor="middle" font-size="10" fill="#6B747A">validator · approval</text>
+    <circle cx="530" cy="338" r="3" fill="#2E7D4F"/>
+    <rect x="746" y="320" width="180" height="76" rx="2" fill="#F1EEE7" stroke="#D6D2C9"/>
+    <text x="836" y="352" text-anchor="middle" font-size="13" fill="#232A2F">DELIVERY</text>
+    <text x="836" y="374" text-anchor="middle" font-size="10" fill="#6B747A">guarded send</text>
+    <circle cx="760" cy="338" r="3" fill="#A97A18"/>
+  </g>
+  <defs>
+    <marker id="arrow" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L8,4 L0,8 z" fill="#6B747A"/>
+    </marker>
+  </defs>
+  <g stroke="#6B747A" stroke-width="1.2" marker-end="url(#arrow)">
+    <line x1="236" y1="358" x2="280" y2="358"/>
+    <line x1="466" y1="358" x2="510" y2="358"/>
+    <line x1="696" y1="358" x2="740" y2="358"/>
+  </g>
+</svg>
