@@ -2,7 +2,7 @@
   Excerpt 03 - File-based status patching: monotonic email_sent protection
                and atomic persistence.
   Production source : scripts/update-daily-brief-status.ps1
-  Production lines  : 165-208
+  Production lines  : 165-212
   Label             : verbatim
 #>
 # email_sent guard: once true, a normal status patch must not reset it to false.
@@ -49,3 +49,7 @@ else {
         if (Test-Path -LiteralPath $tempFile) {
             Remove-Item -LiteralPath $tempFile -Force
         }
+        Write-Error "Failed to write status file: $($_.Exception.Message)"
+        exit 1
+    }
+}

@@ -33,11 +33,11 @@ The pipeline answers both with the same mechanism: **separate collection from wr
 The runtime is split into four independent stages. Stages exchange **structured evidence files**, not long conversation context:
 
 1. **Collector** — opens final source pages, verifies claims, and atomically writes evidence JSON (weather, news, deep reading, sources).
-2. **Writer/Sender** — reads evidence only, writes the brief, runs a deterministic validator (hard gate), a P0/P1 self-check, and persists an explicit approval state before any delivery is possible.
+2. **Writer/Sender** — writes from persisted evidence, runs a deterministic validator (hard gate), a P0/P1 self-check, and persists an explicit approval state before any delivery is possible. When it finds a local evidence defect (a single item's URL, source, time, or supporting fact), it may run one bounded targeted repair pass; systematically untrusted evidence is escalated to the Supervisor.
 3. **Supervisor** — a conditional strong-model rescue stage. It first judges whether the day already succeeded; only unfinished, failed, or untrusted artifacts enter rescue.
 4. **Recovery** — a mechanical stage that re-validates, sends only when approval already exists, and cleans up same-day artifacts on success.
 
-Evidence files are the boundary: Collector never writes the final brief, Writer never searches, and no stage sends without the explicit approval state.
+Evidence files are the boundary: Collector never writes the final brief, the Writer's normal writing path starts from persisted evidence (with one bounded targeted repair for local defects), and no stage sends without the explicit approval state.
 
 ## The safety model
 
@@ -60,14 +60,14 @@ This gradient was driven by a real failure mode: evidence that *exists* but is *
 
 ## Real-code evidence
 
-Four curated excerpts, each with truthful provenance and a `verbatim` / `privacy-only redactions` label:
+Four curated excerpts, each with truthful provenance and a `verbatim` / `adapted (privacy and scope redactions only)` label:
 
 | File | Theme | Label |
 | --- | --- | --- |
 | [code/01-validator-core-rules.ps1](code/01-validator-core-rules.ps1) | Deterministic validator: structure, named source links, placeholders, process-noise rejection | verbatim |
 | [code/02-send-if-ready-gate.ps1](code/02-send-if-ready-gate.ps1) | Single guarded delivery entry: re-validation, approval whitelist, manual-review refusal, transport-failure handling | verbatim |
 | [code/03-status-patch-protection.ps1](code/03-status-patch-protection.ps1) | File-based status patching: monotonic `email_sent` protection and atomic persistence | verbatim |
-| [code/04-stage2-3-contract.ps1](code/04-stage2-3-contract.ps1) | Regression tests: manual-review defense gate and successful-rescue to SENDABLE recovery | verbatim with privacy-only redactions |
+| [code/04-stage2-3-contract.ps1](code/04-stage2-3-contract.ps1) | Regression tests: manual-review defense gate and successful-rescue to SENDABLE recovery | adapted — privacy and scope redactions only; control flow unchanged |
 
 See [code/README.md](code/README.md) for production source references, exact line ranges, and the redaction list.
 

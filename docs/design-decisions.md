@@ -18,8 +18,11 @@ Collector ──(atomic evidence JSON)──> Writer ──(brief + status)─�
 ```
 
 The Collector opens final source pages, verifies claims, and writes structured
-evidence (weather, news, deep reading, sources). The Writer reads only that
-evidence. Neither stage needs the other's conversation.
+evidence (weather, news, deep reading, sources). The Writer's normal writing
+path starts from that evidence. If it finds a local evidence defect (a single
+item's URL, source, time, or supporting fact), Stage 2 may perform one bounded
+targeted repair pass; if the evidence is systematically untrusted, it escalates
+to the Supervisor. Neither stage needs the other's conversation.
 
 The Collector's atomic write contract is a design-level prompt contract in the
 private repository: write to a temporary file in the same directory, re-read it,

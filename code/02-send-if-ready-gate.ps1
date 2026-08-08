@@ -1,7 +1,7 @@
 <#
   Excerpt 02 - Single guarded delivery entry.
   Production source : scripts/send-if-ready.ps1
-  Production lines  : 104-150, 179-200, 229-268
+  Production lines  : 104-150, 179-200, 201-253
   Label             : verbatim
 #>
 # --- Gate condition checks ---
@@ -73,6 +73,34 @@ if (-not ($approvedMain -or $approvedRecovery)) {
     exit 1
 }
 
+# --- Conditions met: send email ---
+Write-Output "All conditions met. Sending email for $Date..."
+
+$dateObj = [datetime]::ParseExact($Date, "yyyy-MM-dd", $null)
+$subject = $dateObj.ToString($config.email.subject_format)
+
+$emailCommand = $config.email.command
+if (-not (Test-Path -LiteralPath $emailCommand)) {
+    Write-Error "Email command not found: $emailCommand"
+    exit 2
+}
+
+try {
+    & $emailCommand --subject $subject --body-file $briefPath --markdown 2>&1
+    if ($LASTEXITCODE -eq 0) {
+        Write-Output "Email sent successfully."
+
+        # Update status
+        $status.email_sent = $true
+        $status.sent_at = (Get-Date -Format "o")
+        $status.error = $null
+        $status.updated_at = (Get-Date -Format "o")
+        $json = $status | ConvertTo-Json -Depth 3
+        [System.IO.File]::WriteAllText($statusFile, $json, [System.Text.UTF8Encoding]::new($false))
+        Write-Output "Status updated: email_sent=true, sent_at=$(Get-Date -Format 'o')"
+        exit 0
+    }
+    else {
         # Transport failure: persist status BEFORE reporting the failure.
         # $ErrorActionPreference=Stop would turn Write-Error into a terminating
         # error and skip the status write; keep delivery_allowed=true,

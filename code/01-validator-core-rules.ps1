@@ -1,7 +1,7 @@
 <#
   Excerpt 01 - Deterministic validator: structure and content hard gates.
   Production source : scripts/validate-daily-brief.ps1
-  Production lines  : 206-251, 253-287, 347-374, 376-408
+  Production lines  : 206-251, 253-287, 347-405, 407-432
   Label             : verbatim
   Notes             : Chinese comments and strings are production facts.
 #>
@@ -114,6 +114,7 @@ foreach ($pattern in $forbiddenPatterns) {
 if ($contentNormalized -match "<!--" -or $contentNormalized -match "-->") {
     Add-Error "正文中残留模板 HTML 注释，正式简报或邮件发送前必须删除。"
 }
+
 # 16. Suspicious empty placeholders
 $placeholderPatterns = @(
     "**标题**",
@@ -144,6 +145,29 @@ foreach ($pattern in $placeholderPatterns) {
 if ($contentNormalized -match "\{\{deep_reading_[^}]+\}\}") {
     Add-Error "检测到未替换的 deep_reading 模板占位符。"
 }
-
 # 17. Public body: no internal collection / process noise (HARD FAIL)
 #    Scan all content before "## 🔍 自检" for internal process words.
+$publicBodyNoiseKeywords = @(
+    'JS渲染',
+    'JS 渲染',
+    '交叉核验',
+    '采集过程',
+    '采集受限',
+    '页面受限',
+    '页面加载受限',
+    '抓取失败',
+    'fetch失败',
+    '无法访问',
+    '访问受限',
+    '工具调用',
+    '调试',
+    'debug'
+)
+
+$publicBody = ($contentNormalized -split "(?m)^## 🔍 自检", 2)[0]
+
+foreach ($keyword in $publicBodyNoiseKeywords) {
+    if ($publicBody -match [regex]::Escape($keyword)) {
+        Add-Error "公开正文包含内部采集/调试信息：$keyword。请移除过程说明，只保留用户可用结论。"
+        break
+    }

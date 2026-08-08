@@ -2,18 +2,18 @@
 
 Four curated excerpts from the private production repository. Every excerpt
 states its production source, production baseline, and an honest
-`verbatim` / `verbatim with privacy-only redactions` label. The full system
-remains private; these excerpts are published for portfolio and
+`verbatim` / `adapted (privacy and scope redactions only)` label. The full
+system remains private; these excerpts are published for portfolio and
 technical-review purposes only.
 
 ## Provenance and labels
 
 | File | Production source | Production lines | Label | What it shows |
 | --- | --- | --- | --- | --- |
-| [01-validator-core-rules.ps1](01-validator-core-rules.ps1) | `scripts/validate-daily-brief.ps1` | 206-251, 253-287, 347-374, 376-408 | verbatim | Deterministic hard gate: required sections, weather fields and named source links, news links, forbidden process / AI chatter, unresolved placeholders |
-| [02-send-if-ready-gate.ps1](02-send-if-ready-gate.ps1) | `scripts/send-if-ready.ps1` | 104-150, 179-200, 229-268 | verbatim | Single guarded delivery entry: gate condition checks, manual-review refusal, approval whitelist, transport-failure handling that keeps content approval intact |
-| [03-status-patch-protection.ps1](03-status-patch-protection.ps1) | `scripts/update-daily-brief-status.ps1` | 165-208 | verbatim | File-based status patching: monotonic `email_sent` protection and atomic persistence (temp file + safe move) |
-| [04-stage2-3-contract.ps1](04-stage2-3-contract.ps1) | `tests/test-stage2-3-contract.ps1` | 135-173, 188-265 | verbatim with privacy-only redactions | Regression tests: `manual_review_required` defense gate and successful rescue restoring SENDABLE |
+| [01-validator-core-rules.ps1](01-validator-core-rules.ps1) | `scripts/validate-daily-brief.ps1` | 206-251, 253-287, 347-405, 407-432 | verbatim | Deterministic hard gate: required sections, weather fields and named source links, news links, forbidden process / AI chatter, unresolved placeholders, public-body process-noise HARD FAIL |
+| [02-send-if-ready-gate.ps1](02-send-if-ready-gate.ps1) | `scripts/send-if-ready.ps1` | 104-150, 179-200, 201-253 | verbatim | Single guarded delivery entry: gate condition checks, manual-review refusal, approval whitelist, send block with transport-failure handling that keeps content approval intact |
+| [03-status-patch-protection.ps1](03-status-patch-protection.ps1) | `scripts/update-daily-brief-status.ps1` | 165-212 | verbatim | File-based status patching: monotonic `email_sent` protection and atomic persistence (temp file + safe move) |
+| [04-stage2-3-contract.ps1](04-stage2-3-contract.ps1) | `tests/test-stage2-3-contract.ps1` | 135-173, 188-256 | adapted — privacy and scope redactions only; control flow unchanged | Regression tests: `manual_review_required` defense gate and successful rescue restoring SENDABLE |
 
 Production baseline: private repository `main` @ `15b539a`.
 
@@ -27,11 +27,13 @@ Production baseline: private repository `main` @ `15b539a`.
 - Line endings may be normalized to the platform default; content is otherwise
   unchanged.
 
-## What "verbatim with privacy-only redactions" means here
+## What "adapted (privacy and scope redactions only)" means here
 
 - Same as verbatim, except specific private or runtime-bound values are
-  replaced by placeholders or generic terms.
-- No structure, logic, or control flow was changed.
+  replaced by placeholders or generic terms, and a source-name reference is
+  generalized for scope reasons (the production test fixture named an outlet).
+- The date, timestamp, helper-name, subject-format, and outlet-name changes are
+  redactions only: no structure, logic, or control flow was changed.
 
 ### Redaction list for 04-stage2-3-contract.ps1
 

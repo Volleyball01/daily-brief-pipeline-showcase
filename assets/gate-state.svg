@@ -1,80 +1,72 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 700" role="img" aria-labelledby="gate-title gate-desc">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 720" role="img" aria-labelledby="gate-title gate-desc">
   <title id="gate-title">Delivery gate and recovery states</title>
-  <desc id="gate-desc">State flow from PENDING through VALIDATOR, SELF-CHECK, SENDABLE, SEND to DELIVERED; transport failure keeps SENDABLE; gate failure goes to BLOCKED with manual review; below, the repair gradient from bounded local repair to full rescue to human review.</desc>
-  <rect width="1080" height="700" fill="#FBFAF7"/>
+  <desc id="gate-desc">State flow from PENDING through VALIDATOR, SELF-CHECK, SENDABLE, SEND to DELIVERED. Gate failure leads to a recoverable BLOCKED state eligible for rescue; only a final corrective rescue failure sets BLOCKED with manual review. Transport failure keeps SENDABLE and Recovery may resend.</desc>
+  <rect width="1040" height="720" fill="#FBFAF7"/>
   <g font-family="ui-monospace, 'Cascadia Mono', Consolas, monospace">
-    <text x="40" y="42" font-size="12" letter-spacing="2" fill="#6B747A">DELIVERY GATE — CONTENT APPROVAL IS NOT TRANSPORT SUCCESS</text>
+    <text x="40" y="40" font-size="12" letter-spacing="2" fill="#6B747A">DELIVERY GATE — CONTENT APPROVAL IS NOT TRANSPORT SUCCESS</text>
   </g>
-  <line x1="40" y1="60" x2="1040" y2="60" stroke="#D6D2C9"/>
+  <line x1="40" y1="58" x2="1000" y2="58" stroke="#D6D2C9"/>
   <g font-family="ui-monospace, 'Cascadia Mono', Consolas, monospace">
-    <rect x="30" y="110" width="120" height="56" rx="2" fill="#F1EEE7" stroke="#D6D2C9"/>
-    <text x="90" y="142" text-anchor="middle" font-size="12" fill="#232A2F">PENDING</text>
-    <rect x="200" y="110" width="150" height="56" rx="2" fill="#F1EEE7" stroke="#D6D2C9"/>
-    <text x="275" y="142" text-anchor="middle" font-size="12" fill="#232A2F">VALIDATOR</text>
-    <rect x="400" y="110" width="150" height="56" rx="2" fill="#F1EEE7" stroke="#D6D2C9"/>
-    <text x="475" y="142" text-anchor="middle" font-size="12" fill="#232A2F">SELF-CHECK</text>
-    <rect x="600" y="110" width="160" height="56" rx="2" fill="#FAF3E3" stroke="#A97A18"/>
-    <text x="680" y="142" text-anchor="middle" font-size="12" fill="#232A2F">SENDABLE</text>
-    <circle cx="616" cy="126" r="3" fill="#A97A18"/>
-    <rect x="810" y="110" width="110" height="56" rx="2" fill="#F1EEE7" stroke="#D6D2C9"/>
-    <text x="865" y="142" text-anchor="middle" font-size="12" fill="#232A2F">SEND</text>
-    <rect x="960" y="110" width="100" height="56" rx="2" fill="#F1EEE7" stroke="#D6D2C9"/>
-    <text x="1010" y="142" text-anchor="middle" font-size="12" fill="#232A2F">DELIVERED</text>
-    <circle cx="976" cy="126" r="3" fill="#2E7D4F"/>
+    <rect x="30" y="100" width="110" height="56" rx="2" fill="#F1EEE7" stroke="#D6D2C9"/>
+    <text x="85" y="132" text-anchor="middle" font-size="12" fill="#232A2F">PENDING</text>
+    <rect x="190" y="100" width="150" height="56" rx="2" fill="#F1EEE7" stroke="#D6D2C9"/>
+    <text x="265" y="132" text-anchor="middle" font-size="12" fill="#232A2F">VALIDATOR</text>
+    <rect x="390" y="100" width="150" height="56" rx="2" fill="#F1EEE7" stroke="#D6D2C9"/>
+    <text x="465" y="132" text-anchor="middle" font-size="12" fill="#232A2F">SELF-CHECK</text>
+    <rect x="590" y="100" width="160" height="56" rx="2" fill="#FAF3E3" stroke="#A97A18"/>
+    <text x="670" y="132" text-anchor="middle" font-size="12" fill="#232A2F">SENDABLE</text>
+    <circle cx="606" cy="116" r="3" fill="#A97A18"/>
+    <rect x="800" y="100" width="100" height="56" rx="2" fill="#F1EEE7" stroke="#D6D2C9"/>
+    <text x="850" y="132" text-anchor="middle" font-size="12" fill="#232A2F">SEND</text>
+    <rect x="940" y="100" width="90" height="56" rx="2" fill="#F1EEE7" stroke="#D6D2C9"/>
+    <text x="985" y="132" text-anchor="middle" font-size="12" fill="#232A2F">DELIVERED</text>
+    <circle cx="956" cy="116" r="3" fill="#2E7D4F"/>
   </g>
   <defs>
-    <marker id="arrow3" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+    <marker id="arrowG" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
       <path d="M0,0 L8,4 L0,8 z" fill="#6B747A"/>
     </marker>
   </defs>
-  <g stroke="#6B747A" stroke-width="1.2" marker-end="url(#arrow3)">
-    <line x1="150" y1="138" x2="194" y2="138"/>
-    <line x1="350" y1="138" x2="394" y2="138"/>
-    <line x1="550" y1="138" x2="594" y2="138"/>
-    <line x1="760" y1="138" x2="804" y2="138"/>
-    <line x1="920" y1="138" x2="954" y2="138"/>
+  <g stroke="#6B747A" stroke-width="1.2" marker-end="url(#arrowG)">
+    <line x1="140" y1="128" x2="184" y2="128"/>
+    <line x1="340" y1="128" x2="384" y2="128"/>
+    <line x1="540" y1="128" x2="584" y2="128"/>
+    <line x1="750" y1="128" x2="794" y2="128"/>
+    <line x1="900" y1="128" x2="934" y2="128"/>
+  </g>
+  <g stroke="#6B747A" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#arrowG)">
+    <line x1="265" y1="156" x2="265" y2="238"/>
+    <line x1="465" y1="156" x2="465" y2="238"/>
   </g>
   <g font-family="ui-monospace, 'Cascadia Mono', Consolas, monospace">
-    <path d="M 865 166 L 865 210 L 680 210 L 680 172" fill="none" stroke="#A97A18" stroke-width="1.2" marker-end="url(#arrow3)"/>
-    <text x="772" y="198" text-anchor="middle" font-size="10" fill="#A97A18">transport failure — keep SENDABLE, record error · Recovery may resend</text>
-    <rect x="400" y="300" width="260" height="92" rx="2" fill="#FBEDEA" stroke="#B5453B"/>
-    <text x="530" y="334" text-anchor="middle" font-size="13" fill="#232A2F">BLOCKED + MANUAL REVIEW</text>
-    <text x="530" y="360" text-anchor="middle" font-size="10" fill="#B5453B">manual_review_required = true</text>
-    <text x="530" y="376" text-anchor="middle" font-size="10" fill="#6B747A">delivery refuses even if other fields look SENDABLE</text>
-    <circle cx="416" cy="318" r="3" fill="#B5453B"/>
+    <rect x="190" y="244" width="380" height="92" rx="2" fill="#F1EEE7" stroke="#D6D2C9"/>
+    <text x="380" y="276" text-anchor="middle" font-size="13" fill="#232A2F">BLOCKED — DELIVERY REFUSED</text>
+    <text x="380" y="298" text-anchor="middle" font-size="12" fill="#6B747A">eligible for rescue (Stage 2 / Stage 3)</text>
+    <text x="380" y="316" text-anchor="middle" font-size="11" fill="#6B747A">validator / self-check failure is recoverable</text>
+    <circle cx="206" cy="260" r="3" fill="#B5453B"/>
+    <rect x="240" y="420" width="340" height="104" rx="2" fill="#F1EEE7" stroke="#D6D2C9"/>
+    <text x="410" y="448" text-anchor="middle" font-size="13" fill="#232A2F">RESCUE — STAGE 2 / STAGE 3</text>
+    <text x="410" y="472" text-anchor="middle" font-size="12" fill="#6B747A">Stage 2: one bounded local repair pass</text>
+    <text x="410" y="490" text-anchor="middle" font-size="12" fill="#6B747A">Stage 3: re-verify · fix · rebuild</text>
+    <text x="410" y="508" text-anchor="middle" font-size="11" fill="#6B747A">restore through the full gate</text>
+    <text x="390" y="380" font-size="11" fill="#6B747A">gate failure → rescue</text>
+    <text x="650" y="452" text-anchor="middle" font-size="11" fill="#6B747A">success → SENDABLE</text>
+    <rect x="190" y="584" width="440" height="78" rx="2" fill="#FBEDEA" stroke="#B5453B"/>
+    <text x="410" y="614" text-anchor="middle" font-size="13" fill="#232A2F">BLOCKED + HUMAN REVIEW</text>
+    <text x="410" y="638" text-anchor="middle" font-size="12" fill="#B5453B">manual_review_required = true · delivery refuses</text>
+    <circle cx="206" cy="600" r="3" fill="#B5453B"/>
+    <text x="420" y="556" font-size="11" fill="#B5453B">final corrective rescue still fails</text>
+    <text x="780" y="218" text-anchor="middle" font-size="11" fill="#A97A18">transport failure — keep SENDABLE, record error</text>
+    <text x="780" y="234" text-anchor="middle" font-size="11" fill="#A97A18">Recovery may resend</text>
   </g>
-  <g stroke="#6B747A" stroke-width="1.2" marker-end="url(#arrow3)">
-    <line x1="275" y1="166" x2="275" y2="292" stroke-dasharray="4 3"/>
-    <line x1="475" y1="166" x2="475" y2="294" stroke-dasharray="4 3"/>
-  </g>
-  <g font-family="ui-monospace, 'Cascadia Mono', Consolas, monospace">
-    <text x="40" y="430" font-size="12" letter-spacing="2" fill="#6B747A">REPAIR GRADIENT — BOUNDED, THEN FULL, THEN HUMAN</text>
-  </g>
-  <line x1="40" y1="448" x2="1040" y2="448" stroke="#D6D2C9"/>
-  <g font-family="ui-monospace, 'Cascadia Mono', Consolas, monospace">
-    <rect x="40" y="480" width="300" height="140" rx="2" fill="#F1EEE7" stroke="#D6D2C9"/>
-    <text x="190" y="512" text-anchor="middle" font-size="13" fill="#232A2F">STAGE 2 — BOUNDED LOCAL REPAIR</text>
-    <text x="190" y="540" text-anchor="middle" font-size="10" fill="#6B747A">one pass</text>
-    <text x="190" y="556" text-anchor="middle" font-size="10" fill="#6B747A">single-item URL / source / time /</text>
-    <text x="190" y="572" text-anchor="middle" font-size="10" fill="#6B747A">supporting fact</text>
-    <text x="190" y="588" text-anchor="middle" font-size="10" fill="#6B747A">no new research topics</text>
-    <rect x="390" y="480" width="300" height="140" rx="2" fill="#F1EEE7" stroke="#D6D2C9"/>
-    <text x="540" y="512" text-anchor="middle" font-size="13" fill="#232A2F">STAGE 3 — FULL RESCUE AUTHORITY</text>
-    <text x="540" y="540" text-anchor="middle" font-size="10" fill="#6B747A">re-verify · fix / delete / replace /</text>
-    <text x="540" y="556" text-anchor="middle" font-size="10" fill="#6B747A">rebuild evidence</text>
-    <text x="540" y="572" text-anchor="middle" font-size="10" fill="#6B747A">rewrite unsent brief</text>
-    <text x="540" y="588" text-anchor="middle" font-size="10" fill="#6B747A">full gate · at most one corrective pass</text>
-    <rect x="740" y="480" width="300" height="140" rx="2" fill="#FBEDEA" stroke="#B5453B"/>
-    <text x="890" y="512" text-anchor="middle" font-size="13" fill="#232A2F">BLOCKED + HUMAN REVIEW</text>
-    <text x="890" y="540" text-anchor="middle" font-size="10" fill="#6B747A">second full gate failed</text>
-    <text x="890" y="556" text-anchor="middle" font-size="10" fill="#6B747A">delivery refused</text>
-    <circle cx="756" cy="498" r="3" fill="#B5453B"/>
-  </g>
-  <g stroke="#6B747A" stroke-width="1.2" marker-end="url(#arrow3)">
-    <line x1="340" y1="550" x2="384" y2="550"/>
-    <line x1="690" y1="550" x2="734" y2="550"/>
+  <g stroke="#6B747A" stroke-width="1.2" marker-end="url(#arrowG)">
+    <line x1="380" y1="336" x2="380" y2="414"/>
+    <line x1="410" y1="524" x2="410" y2="578"/>
+    <path d="M 580 460 L 720 460 L 720 162" fill="none"/>
+    <path d="M 850 156 L 850 240 L 710 240 L 710 162" fill="none" stroke="#A97A18"/>
   </g>
   <g font-family="ui-monospace, 'Cascadia Mono', Consolas, monospace">
-    <text x="40" y="660" font-size="11" fill="#4A5258">Rescue restores full quality rules; it never lowers fact reliability. Semantic color is used sparingly: PASS green · SENDABLE amber · BLOCKED red.</text>
+    <text x="40" y="696" font-size="11" fill="#4A5258">Ordinary gate failure is a recoverable BLOCKED state; manual_review_required is set only when the final corrective rescue still fails.</text>
+    <text x="40" y="712" font-size="11" fill="#4A5258">Semantic color: PASS green · SENDABLE amber · BLOCKED red.</text>
   </g>
 </svg>

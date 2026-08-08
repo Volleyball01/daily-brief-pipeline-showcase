@@ -2,8 +2,8 @@
   Excerpt 04 - Regression tests: manual-review defense gate and
                successful rescue restoring SENDABLE.
   Production source : tests/test-stage2-3-contract.ps1
-  Production lines  : 135-173, 188-265
-  Label             : verbatim with privacy-only redactions
+  Production lines  : 135-173, 188-256
+  Label             : adapted (privacy and scope redactions only; control flow unchanged)
   Redactions        : test dates, timestamp, helper script name, subject
                       format, and a source-name reference were replaced with
                       placeholders or generic terms (see code/README.md).
@@ -116,12 +116,3 @@ $output6 = & $sendIfReady -Date $rescueDate -ConfigPath $tmpConfig 2>&1
 Assert-True (-not (($output6 -join "`n") -match 'manual_review_required')) "Case 6: send-if-ready must not refuse on manual-review flag after rescue"
 Assert-True (($output6 -join "`n") -match 'BRIEF_FILE_MISSING|VALIDATOR_REFAILED|BLOCKED') "Case 6: must be blocked by a later gate (no real send)"
 Assert-True (-not (($output6 -join "`n") -match 'EMAIL_COMMAND|Email sent')) "Case 6: must NOT reach the email command"
-
-}
-finally {
-    if (-not $KeepTemp) {
-        Remove-Item -LiteralPath $tempRoot -Recurse -Force -ErrorAction SilentlyContinue
-    }
-}
-
-if ($allPassed) {

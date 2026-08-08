@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 420" role="img" aria-labelledby="hero-title hero-desc">
   <title id="hero-title">Daily Brief Pipeline</title>
-  <desc id="hero-desc">Verified evidence in. Explicit approval out. A four-stage pipeline from Collector, Evidence, Writer to guarded Delivery.</desc>
+  <desc id="hero-desc">Verified evidence in. Explicit approval out. A conceptual path from Collector, through Evidence and Writer, to guarded Delivery.</desc>
   <rect width="1000" height="420" fill="#FBFAF7"/>
   <g font-family="ui-monospace, 'Cascadia Mono', Consolas, monospace">
     <text x="56" y="52" font-size="12" letter-spacing="3" fill="#6B747A">PUBLIC ENGINEERING SHOWCASE — AGENT AUTOMATION</text>
@@ -11,7 +11,7 @@
     <text x="56" y="150" font-size="46">Verified evidence in.</text>
     <text x="56" y="206" font-size="46">Explicit approval out.</text>
   </g>
-  <text x="58" y="250" font-family="ui-monospace, 'Cascadia Mono', Consolas, monospace" font-size="14" fill="#4A5258">A four-stage pipeline that turns a one-shot AI task into a daily, guarded delivery.</text>
+    <text x="58" y="250" font-family="ui-monospace, 'Cascadia Mono', Consolas, monospace" font-size="14" fill="#4A5258">A guarded pipeline that turns a one-shot AI task into a daily, trusted delivery.</text>
   <line x1="56" y1="286" x2="944" y2="286" stroke="#D6D2C9"/>
   <g font-family="ui-monospace, 'Cascadia Mono', Consolas, monospace">
     <rect x="56" y="320" width="180" height="76" rx="2" fill="#F1EEE7" stroke="#D6D2C9"/>
