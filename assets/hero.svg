@@ -1,42 +1,42 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 420" role="img" aria-labelledby="hero-title hero-desc">
   <title id="hero-title">Daily Brief Pipeline</title>
-  <desc id="hero-desc">Verified evidence in. Explicit approval out. A conceptual path from Collector, through Evidence and Writer, to guarded Delivery.</desc>
+  <desc id="hero-desc">Verified evidence in. Explicit approval out. A conceptual evidence-to-delivery path.</desc>
   <rect width="1000" height="420" fill="#FBFAF7"/>
   <g font-family="ui-monospace, 'Cascadia Mono', Consolas, monospace">
-    <text x="56" y="52" font-size="12" letter-spacing="3" fill="#6B747A">PUBLIC ENGINEERING SHOWCASE — AGENT AUTOMATION</text>
-    <text x="944" y="52" font-size="12" letter-spacing="2" text-anchor="end" fill="#6B747A">PRIVATE PRODUCTION · PUBLIC EVIDENCE</text>
+    <text x="56" y="50" font-size="12" letter-spacing="3" fill="#6B747A">PUBLIC ENGINEERING SHOWCASE — AGENT AUTOMATION</text>
+    <text x="944" y="50" font-size="12" letter-spacing="2" text-anchor="end" fill="#6B747A">PRIVATE PRODUCTION · PUBLIC EVIDENCE</text>
   </g>
-  <line x1="56" y1="76" x2="944" y2="76" stroke="#D6D2C9"/>
+  <line x1="56" y1="74" x2="944" y2="74" stroke="#D6D2C9"/>
   <g font-family="Georgia, 'Times New Roman', serif" fill="#232A2F">
-    <text x="56" y="150" font-size="46">Verified evidence in.</text>
-    <text x="56" y="206" font-size="46">Explicit approval out.</text>
+    <text x="56" y="152" font-size="46">Verified evidence in.</text>
+    <text x="56" y="208" font-size="46">Explicit approval out.</text>
   </g>
-    <text x="58" y="250" font-family="ui-monospace, 'Cascadia Mono', Consolas, monospace" font-size="14" fill="#4A5258">A guarded pipeline that turns a one-shot AI task into a daily, trusted delivery.</text>
-  <line x1="56" y1="286" x2="944" y2="286" stroke="#D6D2C9"/>
-  <g font-family="ui-monospace, 'Cascadia Mono', Consolas, monospace">
-    <rect x="56" y="320" width="180" height="76" rx="2" fill="#F1EEE7" stroke="#D6D2C9"/>
-    <text x="146" y="352" text-anchor="middle" font-size="13" fill="#232A2F">COLLECTOR</text>
-    <text x="146" y="374" text-anchor="middle" font-size="10" fill="#6B747A">search · verify · evidence</text>
-    <rect x="286" y="320" width="180" height="76" rx="2" fill="#F1EEE7" stroke="#D6D2C9"/>
-    <text x="376" y="352" text-anchor="middle" font-size="13" fill="#232A2F">EVIDENCE</text>
-    <text x="376" y="374" text-anchor="middle" font-size="10" fill="#6B747A">structured JSON handoff</text>
-    <rect x="516" y="320" width="180" height="76" rx="2" fill="#F1EEE7" stroke="#D6D2C9"/>
-    <text x="606" y="352" text-anchor="middle" font-size="13" fill="#232A2F">WRITER</text>
-    <text x="606" y="374" text-anchor="middle" font-size="10" fill="#6B747A">validator · approval</text>
-    <circle cx="530" cy="338" r="3" fill="#2E7D4F"/>
-    <rect x="746" y="320" width="180" height="76" rx="2" fill="#F1EEE7" stroke="#D6D2C9"/>
-    <text x="836" y="352" text-anchor="middle" font-size="13" fill="#232A2F">DELIVERY</text>
-    <text x="836" y="374" text-anchor="middle" font-size="10" fill="#6B747A">guarded send</text>
-    <circle cx="760" cy="338" r="3" fill="#A97A18"/>
-  </g>
+  <text x="58" y="258" font-family="ui-monospace, 'Cascadia Mono', Consolas, monospace" font-size="14" fill="#4A5258">Guarded evidence-to-delivery for recurring AI work.</text>
+  <line x1="56" y1="298" x2="944" y2="298" stroke="#D6D2C9"/>
   <defs>
-    <marker id="arrow" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
-      <path d="M0,0 L8,4 L0,8 z" fill="#6B747A"/>
+    <marker id="arrowH" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#7B8388"/>
     </marker>
   </defs>
-  <g stroke="#6B747A" stroke-width="1.2" marker-end="url(#arrow)">
-    <line x1="236" y1="358" x2="280" y2="358"/>
-    <line x1="466" y1="358" x2="510" y2="358"/>
-    <line x1="696" y1="358" x2="740" y2="358"/>
+  <g font-family="ui-monospace, 'Cascadia Mono', Consolas, monospace">
+    <rect x="70" y="328" width="170" height="58" rx="2" fill="#F4F1EA" stroke="#D6D2C9"/>
+    <text x="155" y="352" text-anchor="middle" font-size="12.5" fill="#232A2F">COLLECTOR</text>
+    <text x="155" y="373" text-anchor="middle" font-size="9.5" fill="#6B747A">search · verify</text>
+    <rect x="300" y="328" width="170" height="58" rx="2" fill="#F4F1EA" stroke="#D6D2C9"/>
+    <text x="385" y="352" text-anchor="middle" font-size="12.5" fill="#232A2F">EVIDENCE</text>
+    <text x="385" y="373" text-anchor="middle" font-size="9.5" fill="#6B747A">persisted handoff</text>
+    <rect x="530" y="328" width="170" height="58" rx="2" fill="#F4F1EA" stroke="#D6D2C9"/>
+    <text x="615" y="352" text-anchor="middle" font-size="12.5" fill="#232A2F">WRITER</text>
+    <text x="615" y="373" text-anchor="middle" font-size="9.5" fill="#6B747A">validate · approve</text>
+    <circle cx="545" cy="342" r="3" fill="#2E7D4F"/>
+    <rect x="760" y="328" width="170" height="58" rx="2" fill="#F4F1EA" stroke="#D6D2C9"/>
+    <text x="845" y="352" text-anchor="middle" font-size="12.5" fill="#232A2F">DELIVERY</text>
+    <text x="845" y="373" text-anchor="middle" font-size="9.5" fill="#6B747A">guarded send</text>
+    <circle cx="775" cy="342" r="3" fill="#A97A18"/>
+  </g>
+  <g stroke="#7B8388" stroke-width="1.1" marker-end="url(#arrowH)">
+    <line x1="240" y1="357" x2="294" y2="357"/>
+    <line x1="470" y1="357" x2="524" y2="357"/>
+    <line x1="700" y1="357" x2="754" y2="357"/>
   </g>
 </svg>

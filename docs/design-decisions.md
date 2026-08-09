@@ -6,10 +6,10 @@ anything about a specific runtime's execution history.
 
 ## 1. Structured evidence as the handoff boundary
 
-The biggest reliability problem in a one-shot AI automation is context: every
-search result and page fetch stays in the conversation, so by the time the
-agent writes, it is working from a large, noisy context and is more likely to
-degrade or hallucinate.
+In this project, the design was motivated by context growth: search and
+page-fetch results stayed in the conversation, so by the time the agent wrote,
+it was working from a large, noisy context. The pipeline replaces shared
+context with files:
 
 The pipeline replaces shared context with files:
 

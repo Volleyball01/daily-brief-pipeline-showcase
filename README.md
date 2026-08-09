@@ -19,7 +19,7 @@ This is a **showcase repository**, not an open-source distribution:
 
 A morning-brief automation receives a one-shot AI task: collect weather and news, verify sources, write a short Chinese Markdown brief, and deliver it by email — every day, unattended.
 
-Two failure modes dominate this kind of task:
+The production design was shaped around two recurring failure modes:
 
 1. **Long-context degradation.** Search and page-fetch results accumulate in one long session; by the time the agent writes, the context is large, noisy, and error-prone.
 2. **Unsafe auto-delivery.** An agent that both writes and sends can ship unverified, placeholder-filled, or internally noisy content — or resend after a transport failure without a clear record of what was approved.
