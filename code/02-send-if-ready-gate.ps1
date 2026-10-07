@@ -1,13 +1,22 @@
 <#
   Excerpt 02 - Single guarded delivery entry.
   Production source : scripts/send-if-ready.ps1
-  Production lines  : 104-150, 179-200, 201-253
+  Production lines  : 128-289
+  Production base   : 1b5c8a8
   Label             : verbatim
+  Notes             : Chinese comments and strings are production facts.
 #>
 # --- Gate condition checks ---
 if ($status.email_sent -eq $true -and -not $Force.IsPresent) {
     Write-Output "EMAIL_ALREADY_SENT: email_sent=true for $Date."
     exit 0
+}
+
+# Config authority: the user turned automatic delivery off. Not a failure;
+# the status keeps its content approval and nothing is sent.
+if ($config.send_if_ready.enabled -eq $false) {
+    Write-Output "DELIVERY_DISABLED_BY_CONFIG: send_if_ready.enabled=false in '$ConfigPath'. Nothing was sent; the brief and the status are kept unchanged."
+    exit 3
 }
 
 # Defense-in-depth: manual review flag blocks sending even if other gate
@@ -51,6 +60,34 @@ if ($briefItem.Length -eq 0) {
     exit 1
 }
 
+# --- Re-run validator before send ---
+$validatorPath = $runtime.validator.path
+if (-not (Test-Path -LiteralPath $validatorPath)) {
+    Write-Error "Validator not found: $validatorPath"
+    exit 2
+}
+
+Write-Output "Re-running validator before send..."
+$validatorOutput = & $validatorPath -FilePath $briefPath -ExpectedDate $Date -TimeZone $config.validator_timezone_id 2>&1
+$validatorPassed = ($LASTEXITCODE -eq 0)
+
+if (-not $validatorPassed) {
+    Write-Output "VALIDATOR_REFAILED: validator no longer passes for $briefPath"
+
+    # Update status to BLOCKED
+    $status.gate_status = "BLOCKED"
+    $status.delivery_allowed = $false
+    $status.delivery_reason = "blocked_validator_refail_before_send"
+    $status.error = "send-if-ready: validator re-failed before send"
+    $status.updated_at = (Get-Date -Format "o")
+    $json = $status | ConvertTo-Json -Depth 3
+    [System.IO.File]::WriteAllText($statusFile, $json, [System.Text.UTF8Encoding]::new($false))
+
+    exit 1
+}
+
+Write-Output "Validator re-check PASS."
+
 # --- Self-check status and delivery_reason whitelist ---
 $approvedMain = (
     $status.self_check_status -eq "PASS" -and
@@ -79,11 +116,16 @@ Write-Output "All conditions met. Sending email for $Date..."
 $dateObj = [datetime]::ParseExact($Date, "yyyy-MM-dd", $null)
 $subject = $dateObj.ToString($config.email.subject_format)
 
-$emailCommand = $config.email.command
-if (-not (Test-Path -LiteralPath $emailCommand)) {
-    Write-Error "Email command not found: $emailCommand"
+# The email tool is the only sender-specific dependency; check it here so
+# gate results above stay accurate on machines without email.
+try {
+    $senderRuntime = Resolve-DailyBriefRuntime -Stage "sender"
+}
+catch {
+    Write-Output $_.Exception.Message
     exit 2
 }
+$emailCommand = $senderRuntime.email.command
 
 try {
     & $emailCommand --subject $subject --body-file $briefPath --markdown 2>&1

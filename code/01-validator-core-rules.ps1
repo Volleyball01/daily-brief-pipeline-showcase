@@ -1,7 +1,8 @@
 <#
   Excerpt 01 - Deterministic validator: structure and content hard gates.
   Production source : scripts/validate-daily-brief.ps1
-  Production lines  : 206-251, 253-287, 347-405, 407-432
+  Production lines  : 210-311, 378-465
+  Production base   : 1b5c8a8
   Label             : verbatim
   Notes             : Chinese comments and strings are production facts.
 #>
@@ -22,7 +23,7 @@ if ($contentNormalized -notmatch "(?m)^##\s+.*今日天气") {
     Add-Error "缺少固定栏目：## 今日天气（可带天气图标）"
 }
 
-# 10. Basic weather fields
+# 10. Weather fields and sources, per ### block (multi-location format)
 $weatherFields = @(
     "- 天气：",
     "- 气温：",
@@ -31,26 +32,51 @@ $weatherFields = @(
     "- 预警/注意报："
 )
 
-foreach ($field in $weatherFields) {
-    if ($contentNormalized -notmatch [regex]::Escape($field)) {
-        Add-Warning "天气栏目可能缺少字段：$field"
-    }
-}
-
 $weatherSectionMatch = [regex]::Match(
     $contentNormalized,
     "(?ms)^##\s+.*今日天气[^\n]*\n(?<body>.*?)(?=^##\s|\z)"
 )
 $weatherContent = if ($weatherSectionMatch.Success) { $weatherSectionMatch.Groups["body"].Value } else { "" }
+
+$weatherBlocks = [regex]::Matches(
+    $weatherContent,
+    "(?ms)^###\s+(?<area>[^\n]+)\n(?<body>.*?)(?=^###\s|\z)"
+)
+
 $weatherSourcePattern = "(?m)^-\s+来源：\s*\[[^\]]+\]\(https?://[^)]+\)(?:\s*·\s*\[[^\]]+\]\(https?://[^)]+\))*\s*$"
 $legacyWeatherSourcePattern = "(?ms)^## 🔍 自检.*?天气来源.*?\[[^\]]+\]\(https?://[^)]+\)"
 $hasLegacyWeatherSource = $contentNormalized -match $legacyWeatherSourcePattern
-if ($weatherContent -notmatch $weatherSourcePattern -and -not $hasLegacyWeatherSource) {
-    Add-Error "天气栏目必须包含命名 Markdown 来源链接：- 来源：[来源名](URL)。"
+
+# Legacy format is identified independently: the WHOLE brief uses the old
+# single-location layout (no ### weather block anywhere). A document that
+# contains any ### weather block is new format and is never downgraded by the
+# self-check appendix: every block must carry its own named Markdown source.
+$isLegacyWeatherFormat = $weatherBlocks.Count -eq 0
+
+if ($isLegacyWeatherFormat) {
+    if ($hasLegacyWeatherSource) {
+        Add-Warning "已识别为历史旧版单地点天气格式（无 ### 地点 block），靠自检栏目天气来源通过；新简报请使用 ### 地点 block 格式。"
+    }
+    else {
+        Add-Error "今日天气栏目缺少天气来源：新格式要求每个 ### 地点 block 自带命名 Markdown 来源链接（- 来源：[来源名](URL)）；历史旧格式要求自检栏目含天气来源链接。"
+    }
 }
-elseif ($weatherContent -notmatch $weatherSourcePattern) {
-    Add-Warning "旧版简报使用自检栏目中的天气来源；新简报应将来源移入天气栏目。"
+
+foreach ($block in $weatherBlocks) {
+    $blockName = $block.Groups["area"].Value.Trim()
+    $blockContent = $block.Groups["body"].Value
+
+    foreach ($field in $weatherFields) {
+        if ($blockContent -notmatch [regex]::Escape($field)) {
+            Add-Warning "天气栏目地点 block「$blockName」可能缺少字段：$field"
+        }
+    }
+
+    if ($blockContent -notmatch $weatherSourcePattern) {
+        Add-Error "天气栏目地点 block「$blockName」必须包含命名 Markdown 来源链接：- 来源：[来源名](URL)。"
+    }
 }
+
 # 11. News Markdown links
 $linkMatches = [regex]::Matches($contentNormalized, "\[[^\]]+\]\((https?://[^)]+)\)")
 $newsSectionMatch = [regex]::Match(
@@ -82,10 +108,6 @@ $duplicateUrls = @($sourceUrls | Group-Object | Where-Object { $_.Count -gt 1 })
 foreach ($duplicate in $duplicateUrls) {
     Add-Warning "检测到重复来源链接，请确认是否为同一事件或误用链接：$($duplicate.Name)"
 }
-
-# 12. Deep Reading format
-$deepReadingSectionMatch = [regex]::Match(
-    $contentNormalized,
 # 14. Forbidden process / AI chatter
 $forbiddenPatterns = @(
     "作为AI",
@@ -133,7 +155,8 @@ $placeholderPatterns = @(
     "可用于哪个方向",
     "https://example.com/article",
     "来源：[来源名称](链接)",
-    "一句中文的、温暖、具体、实用的话"
+    "一句中文的、温暖、具体、实用的话",
+    "display_area"
 )
 
 foreach ($pattern in $placeholderPatterns) {
@@ -145,6 +168,7 @@ foreach ($pattern in $placeholderPatterns) {
 if ($contentNormalized -match "\{\{deep_reading_[^}]+\}\}") {
     Add-Error "检测到未替换的 deep_reading 模板占位符。"
 }
+
 # 17. Public body: no internal collection / process noise (HARD FAIL)
 #    Scan all content before "## 🔍 自检" for internal process words.
 $publicBodyNoiseKeywords = @(
@@ -171,3 +195,4 @@ foreach ($keyword in $publicBodyNoiseKeywords) {
         Add-Error "公开正文包含内部采集/调试信息：$keyword。请移除过程说明，只保留用户可用结论。"
         break
     }
+}

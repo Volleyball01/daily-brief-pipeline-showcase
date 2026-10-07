@@ -1,9 +1,11 @@
 <#
-  Excerpt 03 - File-based status patching: monotonic email_sent protection
-               and atomic persistence.
+  Excerpt 03 - File-based status patching: monotonic email_sent, brief_path
+               guard for SENDABLE, and atomic persistence.
   Production source : scripts/update-daily-brief-status.ps1
-  Production lines  : 165-212
+  Production lines  : 170-229
+  Production base   : 1b5c8a8
   Label             : verbatim
+  Notes             : Chinese comments and strings are production facts.
 #>
 # email_sent guard: once true, a normal status patch must not reset it to false.
 # send-if-ready.ps1 writes email_sent=true directly to the status file (not through
@@ -20,6 +22,18 @@ foreach ($prop in $patch.PSObject.Properties) {
     }
     else {
         $status | Add-Member -NotePropertyName $prop.Name -NotePropertyValue $prop.Value
+    }
+}
+
+# brief_path guard: entering SENDABLE requires the brief file send-if-ready
+# will send. Checked on the merged status, before anything is written.
+if ($patch.PSObject.Properties['gate_status'] -and $patch.gate_status -eq "SENDABLE") {
+    $sendablePath = [string]$status.brief_path
+    if ([string]::IsNullOrWhiteSpace($sendablePath) -or
+        -not (Test-Path -LiteralPath $sendablePath -PathType Leaf) -or
+        (Get-Item -LiteralPath $sendablePath).Length -eq 0) {
+        Write-Error "gate_status=SENDABLE requires brief_path to name the existing non-empty brief file (brief_path='$sendablePath'). Include brief_path in the patch."
+        exit 1
     }
 }
 
