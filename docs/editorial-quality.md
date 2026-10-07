@@ -43,7 +43,7 @@ The private research notes behind this page are longer and stay private. Only th
 
 ## Fidelity: a review item, not a new gate
 
-When verified evidence becomes prose, proper names, numbers, and dates must stay exactly as verified. Explanation may add perspective; it must not alter facts.
+Proper names, numbers, and dates carried from verified evidence must remain accurate; translation or transliteration must not change the underlying entity or fact. Explanation may add perspective; it must not alter facts.
 
 Fidelity is a focus for the **offline editorial benchmark** and for the owner's review of real briefs. It deliberately does **not** add a production LLM reviewer, and it does not grow the runtime context. The deterministic finalize step already confirms mechanically that every verified news item reaches the brief. Wording-level fidelity is judged offline.
 

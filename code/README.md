@@ -12,7 +12,7 @@ Production baseline: private repository `main` @ `1b5c8a8` (2026-10-07).
 | [02-send-if-ready-gate.ps1](02-send-if-ready-gate.ps1) | `scripts/send-if-ready.ps1` | 128-289 | verbatim | Single guarded delivery entry: gate condition checks; delivery disabled by config; manual-review refusal; validator re-run before send; approval whitelist; transport-failure handling that keeps content approval intact |
 | [03-status-patch-protection.ps1](03-status-patch-protection.ps1) | `scripts/update-daily-brief-status.ps1` | 170-229 | verbatim | File-based status patching: monotonic `email_sent`; a `brief_path` guard for entering SENDABLE; atomic persistence (temp file, then a safe move) |
 | [04-stage2-3-contract.ps1](04-stage2-3-contract.ps1) | `tests/test-stage2-3-contract.ps1` | 54-74, 151-238, 253-322 | adapted — privacy and scope redactions only; control flow unchanged | Regression tests: a SENDABLE patch without a usable `brief_path` is rejected; the `manual_review_required` defense gate; a successful rescue restores SENDABLE, and the fake email tool is never called |
-| [05-context-budget-guard.ps1](05-context-budget-guard.ps1) | `tests/test-prompts-contract.ps1` | 69-103 | verbatim | Normal-path context guard: each stage starts from the deterministic stage context; engineering contracts stay out of the normal read chain; the mission comes before the interface; fixed instruction bytes stay within a per-stage budget |
+| [05-context-budget-guard.ps1](05-context-budget-guard.ps1) | `tests/test-prompts-contract.ps1` | 70-85, 94-103 | verbatim | Normal-path context guard: each stage starts from the deterministic stage context; engineering contracts stay out of the normal read chain; the mission comes before the interface; fixed instruction bytes stay within a per-stage budget |
 | [06-settings-save-transaction.ps1](06-settings-save-transaction.ps1) | `scripts/settings/settings-server.ps1` | 316-410 | verbatim | Settings save transaction: allow-listed files; run-window lock; external-change guard; staging and validation before config is touched; verified backup; write with read-back; post-write validation; restore on any failure |
 | [07-evidence-check-news-floor.ps1](07-evidence-check-news-floor.ps1) | `scripts/lib/stage-context.ps1` | 190-235, 309-338 | verbatim | The deterministic Stage 1 → Stage 2 handoff check that replaced an LLM "health check": a config-driven news floor; a structural URL check that never judges domain trust; per-item required fields; an honest degraded state |
 
@@ -28,7 +28,6 @@ They were re-cut here so that this refresh represents the current implementation
 - Only the header comment at the top of each file was added.
 - When several line ranges are listed, they are concatenated directly. The range list documents which lines were omitted.
 - Line endings may be normalized to the platform default. The content is otherwise unchanged.
-- Comments inside verbatim excerpts may mention production issue numbers such as `#52`. These refer to the private production repository's tracker, not to this repository's issues.
 
 ## What "adapted (privacy and scope redactions only)" means here
 

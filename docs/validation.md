@@ -14,7 +14,7 @@ The private production project's acceptance matrix uses three markers:
 
 `[A]` proves what a script can prove. `[W]` scenarios remain manual judgments. Neither implies that a specific runtime executed successfully on a specific day.
 
-A fourth layer was made explicit after the October 2026 quality regression: **editorial quality**. Every engineering test passed while the brief got worse, so passing tests is not treated as evidence that the product is good.
+A fourth layer was made explicit after the October 2026 quality regression: **editorial quality**. The engineering gates and existing checks were passing while the brief got worse, so passing tests is not treated as evidence that the product is good.
 
 ## Test suite
 
@@ -60,7 +60,7 @@ Degraded and failing cases behaved as designed:
 
 Normal-path fixed instructions, measured in UTF-8 bytes from the production repository:
 
-| Stage | Before (`0ccedb8`) | After (`1b5c8a8`) | Test budget |
+| Stage | Before the quality upgrade | After (`1b5c8a8`) | Test budget |
 | --- | ---: | ---: | ---: |
 | Collector | 57 245 | 22 329 | 26 000 |
 | Writer | 56 855 | 14 819 | 18 000 |
@@ -71,7 +71,7 @@ The budget leaves about 15–20 % headroom. A genuinely useful editorial paragra
 
 - **How it is judged today.** The owner reads real briefs. After a qualitative review of the first real run following the upgrade (2026-10-07), the owner found editorial quality clearly restored and adopted that brief as a new editorial reference.
 - **What exists but is not yet a gate.** A scored rubric draft covers curation, explanation, relevance, density, coherence, and finishability, with factual trust as a veto. Its intended use is offline: fixed evidence fixtures, scored before and after prompt or model changes. It is not yet in use and does not run in the daily pipeline.
-- **Fidelity.** Proper names, numbers, and dates carried from verified evidence into the final text must stay accurate. This is an offline benchmark and review item, not a production gate. It adds no LLM reviewer to the daily run.
+- **Fidelity.** Proper names, numbers, and dates carried from verified evidence must remain accurate; translation or transliteration must not change the underlying entity or fact. This is an offline benchmark and review item, not a production gate. It adds no LLM reviewer to the daily run.
 
 ## What is not claimed
 

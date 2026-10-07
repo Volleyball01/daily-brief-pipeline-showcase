@@ -116,7 +116,7 @@ The repository does not integrate with any scheduler vendor, and saving config n
 
 ### 11. Editorial quality is the primary objective
 
-In October 2026 every engineering test passed while the brief became shorter, thinner, and slower to produce. "Passed the gates" had quietly replaced "worth reading every morning" as the working objective. The correction made the order explicit:
+In October 2026 the engineering gates and existing checks were passing while the brief became shorter, thinner, and slower to produce. None of them caught the editorial regression. "Passed the gates" had quietly replaced "worth reading every morning" as the working objective. The correction made the order explicit:
 
 > **Product / Editorial Quality > Research Integrity > Engineering Reliability.**
 

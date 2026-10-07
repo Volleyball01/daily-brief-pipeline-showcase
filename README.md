@@ -80,7 +80,7 @@ The gradient was first driven by a real failure mode: evidence that *exists* but
 
 ## Quality over gates
 
-In October 2026 every engineering test passed, yet the daily brief had become **shorter, thinner, and slower to produce**. The diagnosis was a prompt and pipeline regression, not a model limit.
+In October 2026 the engineering gates and existing checks were passing, yet the daily brief had become **shorter, thinner, and slower to produce**. The diagnosis was a prompt and pipeline regression, not a model limit.
 
 - **Engineering knowledge had crowded the runtime context.** Each stage read full schemas, status and gate semantics, the full config, and delivery rules on every run. Per the production change record, the fixed instructions had grown to about 2.4× the September production version.
 - **Rules had been split into separate documents, but every consumer still read all of them.** The research policy and the Collector prompt carried two normal-path algorithms that contradicted each other.
@@ -93,12 +93,12 @@ The correction re-ordered the priorities explicitly:
 
 What changed:
 
-| Normal-path fixed instructions (UTF-8 bytes) | Before (`0ccedb8`) | After (`1b5c8a8`) |
+| Normal-path fixed instructions (UTF-8 bytes) | Before the quality upgrade | After (`1b5c8a8`) |
 | --- | ---: | ---: |
 | Collector | 57 245 | **22 329** (−61 %) |
 | Writer | 56 855 | **14 819** (−74 %) |
 
-- **Byte measurement.** Byte counts are measured from the production repository at each commit. Including the per-run JSON the stage reads, the production change record reports about 60 KB → 29 KB for the Collector and 60 KB → 17 KB for the Writer. In the same record, the share of Writer context about *how to write well* rose from about 8 % to about 44 %.
+- **Byte measurement.** Byte counts are measured from the production repository at the pre-upgrade baseline and at `1b5c8a8`. Including the per-run JSON the stage reads, the production change record reports about 60 KB → 29 KB for the Collector and 60 KB → 17 KB for the Writer. In the same record, the share of Writer context about *how to write well* rose from about 8 % to about 44 %.
 - **Deterministic facts moved into a script.** Date, weekday, paths, the config subset each stage needs, the time budget, the deduplication window, and the evidence check now come from a stage-context script. Agents no longer read the full config, the status schema, or the gate and delivery rules in the normal path.
 - **Exception guidance loads just in time.** Evidence repair is read only on `ANOMALY`. The failure policy is read only on the failure path.
 - **The Writer no longer re-reviews verified evidence.** The LLM health check was replaced by a structural check that never judges domain trust. State writing and sending moved into a finalize script, so the Writer no longer hand-writes approval patches.

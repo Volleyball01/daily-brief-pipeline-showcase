@@ -2,12 +2,11 @@
   Excerpt 05 - Normal-path context guard: read-chain assertions and fixed
                instruction byte budgets per stage.
   Production source : tests/test-prompts-contract.ps1
-  Production lines  : 69-103
+  Production lines  : 70-85, 94-103
   Production base   : 1b5c8a8
   Label             : verbatim
   Notes             : Chinese comments and strings are production facts.
 #>
-Write-Output "=== Issue #52: normal-path runtime context stays small and stage-specific ==="
 # Repository authority is not runtime context. Collector and Writer start from
 # the deterministic stage context; engineering contracts are on demand only.
 $collectorContent = Get-Content -LiteralPath (Join-Path $repoRoot "prompt\collector-runtime.md") -Raw -Encoding UTF8
@@ -24,14 +23,6 @@ Assert-True ($writerContent -match '`ANOMALY`[^\n]*docs/evidence-repair\.md') "W
 Assert-True ($writerContent -match '## 5\. 失败路径（按需）[\s\S]*docs/daily-content-policy\.md') "Writer must read the content policy only on the failure path"
 Assert-True (-not ($writerContent -match 'writer-patch\.json"\s*\r?\n\s*\$patch = \[ordered\]@\{')) "Writer must not hand-assemble the SENDABLE patch (finalize does)"
 Assert-True ($writerContent -match 'finalize>.*-Mode Approve') "Writer must approve and send through finalize-daily-brief.ps1"
-
-# Fixed normal-path instruction budget (bytes, UTF-8). Before #52: Collector
-# ~57 KB, Writer ~57 KB; September 2026 baseline ~24 KB / ~22 KB. At #52 PR 1
-# the chains measure ~22.3 KB / ~14.8 KB; the limits leave ~15-20% headroom so
-# a genuinely useful editorial paragraph never fails mechanically, while any
-# drift back toward the old engineering-heavy chains does. Raising a budget
-# needs a written reason in the #52 issue docs: prefer moving content to a
-# script, the stage context or an on-demand document.
 $budgets = @(
     @{ Stage = 'Collector'; Limit = 26000; Files = @('prompt/collector-runtime.md', 'docs/daily-research-policy.md', 'docs/daily-artifact-schema.md') },
     @{ Stage = 'Writer'; Limit = 18000; Files = @('prompt/writer-sender-runtime.md', 'docs/brief-style-policy.md', 'templates/daily-brief.md') }
