@@ -6,7 +6,8 @@
   Production lines  : 27-35, 66-96
   Production base   : 7daa53e
   Label             : verbatim
-  Notes             : Chinese comments and strings are production facts.
+  Notes             : Comments are in English; the Chinese strings are
+                      production facts.
                       The backtest behind these constants is described in
                       docs/validation.md (Offline backtests).
 #>

@@ -175,17 +175,17 @@ See [editorial-quality.md](editorial-quality.md) for the distilled principles.
 
 ### 16. Compute what has a definite answer; let the AI select and phrase
 
-Weather values, air quality, solar terms, public holidays, and the outdoor extras all have a definite answer for a given day and place. An AI asked to produce them can be fluent and wrong, and nothing downstream would notice. So scripts compute them, tests check them, and the brief receives them as fixed lines. The AI keeps the work only a reader-aware writer can do: choosing what matters today and saying it plainly.
+Weather values, air quality, solar terms, public holidays, and the outdoor extras all have a definite answer for a given day and place. An AI asked to produce them can be fluent and wrong, and nothing downstream would notice. So scripts compute them and tests check them. Some reach the brief as lines a script writes after the Writer finishes (the outdoor extras and calendar lines); the core weather values reach it through evidence the Collector copies from the script, with a search fallback only for what the script could not confirm. The AI keeps the work only a reader-aware writer can do: choosing what matters today and saying it plainly.
 
 This extends decision 15. Engineering knowledge stays with the maintainer; now facts with a definite answer stay with scripts as well.
 
 ### 17. Choose methods with data, starting from a naive baseline
 
-The air-quality estimate was not designed in the abstract. Candidate sources were compared on 28 days of measurements, then candidate methods were replayed over a full year with an "always good" baseline in the table. The adopted method, the last six hours of station measurements plus a small correction, beat a full atmospheric model. The correction was then checked against one estimated only from past data, so it is not fitted after the fact. Details are in [validation.md](validation.md#offline-backtests).
+The air-quality estimate was not designed in the abstract. Candidate sources were compared on 28 days of measurements, then candidate methods were replayed over a full year with an "always good" baseline in the table. The first comparison showed that working from the station's own recent measurements beats a full atmospheric model. The year-long replay then showed that, among station methods, the last six hours plus a small correction beats the plain 24-hour mean. A correction estimated only from past data performs almost the same, so the improvement does not depend on a value chosen with hindsight. Details are in [validation.md](validation.md#offline-backtests).
 
 ### 18. Remove a whole section rather than ship one wrong fact
 
-Weekday sections draw on fast-changing sources such as event listings, charts, and search trends. A script compares the written section with the verified evidence; on any mismatch the whole section is removed. The section is optional; trust in the brief is not. Weather, news, and sending never depend on it.
+Weekday sections draw on fast-changing sources such as event listings, charts, and search trends. A script checks each written item against the verified evidence (that it exists, its link, song titles, the item limit); on any mismatch the whole section is removed. The section is optional; trust in the brief is not. The check is structural and cannot catch every wording error, which is one more reason the sections stay optional. Weather, news, and sending never depend on it.
 
 ### 19. Load exception rules when the exception happens
 
@@ -196,4 +196,4 @@ Rules for failures are long and rarely used: how to search when the weather scri
 - Weekly, monthly, archive, and knowledge subsystems exist in production and are mentioned only at summary level. Their prompts and code are not part of this showcase.
 - The Settings UI and Doctor are described, not shown. No screenshots are published.
 - No real outputs, emails, status files, evidence files, Profile names, locations, or runtime artifacts are published.
-- No benchmark numbers, run durations, token or cost measurements, model-routing details, or delivery statistics are published. Prompt sizes are published because they are design facts measured from the repository. The offline backtests in [validation.md](validation.md#offline-backtests) are published because they explain why a computed fact uses the method it uses; they are checks on recorded data, not measurements of the pipeline.
+- No production run metrics are published: no benchmark numbers or durations of daily runs, token or cost measurements, model-routing details, or delivery statistics. (Test-suite duration in validation.md is a development fact, not a run metric.) Prompt sizes are published because they are design facts measured from the repository. The offline backtests in [validation.md](validation.md#offline-backtests) are published because they explain why a computed fact uses the method it uses; they are checks on recorded data, not measurements of the pipeline.

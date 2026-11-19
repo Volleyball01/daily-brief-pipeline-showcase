@@ -24,7 +24,7 @@ All tests now run through one entry point, `tests/run-tests.ps1`, in three tiers
 
 Tests added since `1b5c8a8` cover the weather fetch script and outdoor extras (`test-weather-fetch.ps1`, `test-weather-extras.ps1`, `test-weekend-weather.ps1`), the weekday sections (`test-local-columns-fetch.ps1`, `test-local-columns-check.ps1`, `test-seasonal-line.ps1`, `test-jp-holidays.ps1`), news-source availability checks (`test-news-sources.ps1`), the email layout (`test-email-theme.ps1`), and the test runner itself (`test-run-tests.ps1`).
 
-For this edition, the full tier was run in parallel on a second Windows machine: 33 passed and 2 failed. Both failures were environment-only, a missing Python package and a PowerShell output-format difference, and they failed the same way on the unchanged baseline on that machine. This is reported as observed; it is not presented as a clean acceptance run.
+For this edition, the full tier was run in parallel on a second Windows machine: 33 passed and 2 failed. Both failures were environment-only, a missing Python package and a PowerShell output-format difference, and they failed the same way on that machine at the previous production commit `212e498`. This is reported as observed; it is not presented as a clean acceptance run.
 
 ### Second-edition snapshot (`1b5c8a8`)
 
@@ -104,7 +104,7 @@ Reference: the local monitoring station's measured daily mean, over 28 days in O
 | --- | ---: | ---: |
 | Atmospheric model forecast | 10.3 | 9 / 28 |
 | Commercial air-quality API (after-the-fact estimate) | 3.1 | 12 / 28 |
-| **Station's own morning measurements** | **2.2** | **24 / 28** |
+| **Estimate from the station's own recent measurements** | **2.2** | **24 / 28** |
 
 Both the model and the commercial estimate ran consistently high, so the brief switched to station measurements.
 
