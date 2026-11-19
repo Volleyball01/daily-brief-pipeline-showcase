@@ -1,8 +1,8 @@
 # Code Evidence
 
-Seven curated excerpts from the private production repository. Each excerpt states its production source, line ranges, production baseline, and an honest `verbatim` / `adapted (privacy and scope redactions only)` label. The full system remains private. These excerpts are published for portfolio and technical-review purposes only.
+Eight curated excerpts from the private production repository. Each excerpt states its production source, line ranges, production baseline, and an honest `verbatim` / `adapted (privacy and scope redactions only)` label. The full system remains private. These excerpts are published for portfolio and technical-review purposes only.
 
-Production baseline: private repository `main` @ `1b5c8a8` (2026-10-07).
+Production baselines: private repository `main` @ `1b5c8a8` (2026-10-07) for `01`–`07`, and @ `7daa53e` (2026-11-19) for `08`. Each file header names its own baseline.
 
 ## Provenance and labels
 
@@ -15,12 +15,17 @@ Production baseline: private repository `main` @ `1b5c8a8` (2026-10-07).
 | [05-context-budget-guard.ps1](05-context-budget-guard.ps1) | `tests/test-prompts-contract.ps1` | 70-85, 94-103 | verbatim | Normal-path context guard: each stage starts from the deterministic stage context; engineering contracts stay out of the normal read chain; the mission comes before the interface; fixed instruction bytes stay within a per-stage budget |
 | [06-settings-save-transaction.ps1](06-settings-save-transaction.ps1) | `scripts/settings/settings-server.ps1` | 316-410 | verbatim | Settings save transaction: allow-listed files; run-window lock; external-change guard; staging and validation before config is touched; verified backup; write with read-back; post-write validation; restore on any failure |
 | [07-evidence-check-news-floor.ps1](07-evidence-check-news-floor.ps1) | `scripts/lib/stage-context.ps1` | 190-235, 309-338 | verbatim | The deterministic Stage 1 → Stage 2 handoff check that replaced an LLM "health check": a config-driven news floor; a structural URL check that never judges domain trust; per-item required fields; an honest degraded state |
+| [08-station-air-estimate.ps1](08-station-air-estimate.ps1) | `scripts/lib/air-dust-sources.ps1` | 27-35, 66-96 | verbatim | Computed, not generated: the morning PM2.5 estimate from a local station's hourly measurements (mean of the last 6 hours plus a 0.9 µg/m³ correction); a 24-hour fallback with its own freshness and coverage limits; explicit "no data" / "not enough data" states instead of a guess |
 
 ### Changes since the v1 baseline
 
 v1 (2026-08-10) published `01`–`04` from production `15b539a` (2026-08-04). Those excerpts were truthful for that baseline, and their `verbatim` labels were valid for it.
 
 They were re-cut here so that this refresh represents the current implementation, responsibility boundaries, and finalize / status flow. The old excerpts did not become false. The v1 files remain in this repository's Git history.
+
+### Added in the third edition
+
+`08` was cut from production `7daa53e` (2026-11-19). `01`–`07` were not re-cut: they remain truthful for `1b5c8a8`. The later production changes around them (scripted weather, weekday sections, on-demand weather rules, a raised instruction budget) are described in the README and docs rather than shown as code.
 
 ## What "verbatim" means here
 

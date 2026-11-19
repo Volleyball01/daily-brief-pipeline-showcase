@@ -19,7 +19,7 @@ This is a **showcase repository**, not an open-source distribution:
 - The excerpts are published for portfolio and technical-review purposes only. **No open-source license is granted by this repository.**
 - Cloning this repository does not produce a runnable system. No installer, release, or public edition is provided.
 
-This is the second edition of the showcase. v1 (2026-08-10) described the reliability core. This edition, cut from production `1b5c8a8` (2026-10-07), adds two later upgrades. The pipeline became a portable Agent skill, and a quality regression was diagnosed and corrected.
+This is the third edition of the showcase. v1 (2026-08-10) described the reliability core. v2, cut from production `1b5c8a8` (2026-10-07), added two upgrades: the pipeline became a portable Agent skill, and a quality regression was diagnosed and corrected. This edition, updated against production `7daa53e` (2026-11-19), adds a third: facts that can be computed now come from scripts, and the brief grew from a news digest into what the reader needs before heading out. See [Computed, not generated](#computed-not-generated).
 
 ## The problem
 
@@ -108,6 +108,27 @@ What changed:
 
 **Outcome.** After a qualitative review of the first real run following the upgrade (2026-10-07), the owner found editorial quality clearly restored and adopted that brief as a **new editorial reference**. This is the owner's assessment. It is not a factual gold standard, and it is not an A/B-tested or statistically validated result.
 
+## Computed, not generated
+
+After the quality redesign, the brief grew from a news digest into what the reader needs before heading out: today's outdoor conditions, one discovery worth reading, and lifestyle sections on set weekdays. Every addition follows one boundary:
+
+> **If a fact has a definite answer, a script computes it and a test can check it. The AI selects and phrases.**
+
+What moved to scripts:
+
+- **Weather.** A fetch script reads fixed sources per location (a forecast page, the national weather agency's warning data, and a public forecast API) and judges each source on four checks: request, parse, valid data, and freshness. A source is downgraded only after two failures in a row. The Collector copies the script's values; it searches only for what the script could not confirm.
+- **Air quality.** Where a local monitoring station is configured, the morning estimate of today's PM2.5 comes from the station's own hourly measurements, not from a model forecast. The method was chosen and tuned on recorded data (see [validation](docs/validation.md#offline-backtests) and [excerpt 08](code/08-station-air-estimate.ps1)).
+- **Solar terms and public holidays.** Computed, then checked day by day against the officially published dates.
+- **Outdoor extras** (sunrise and sunset, moon phase, UV hours, humidity, yellow dust, a rainbow hint) and the Monday seasonal line are written into the brief by a script after the Writer finishes, so the Writer cannot alter them.
+
+What the AI still does, under the same contracts:
+
+- **Discovery-first reading.** The "worth reading" pick starts from topics, not a fixed list of sites, and states its evidence status; a preprint is labelled as not yet peer reviewed.
+- **Bounded source-concentration review.** When more than half of the selected news (and at least three items) comes from one outlet, the Collector reviews its existing candidates, with at most one extra query, and replaces an item only if the alternative is clearly better. It is a non-blocking warning, not a quota.
+- **Weekday sections.** Weekend events and weekend weather on Thursdays, music charts and search trends on Sundays. The AI selects and writes them from collected evidence; if a section disagrees with that verified data, a script removes the whole section, and weather, news, and sending are not affected.
+
+**The instruction budget, honestly.** New features pushed the fixed instructions back up, from about 22 KB / 15 KB after the redesign to about 30 KB / 19 KB. The budget test was raised once (26 000 → 30 000 bytes for the Collector, 18 000 → 21 000 for the Writer) with a written reason. Later, weather rules needed only when something goes wrong moved into an on-demand document, the same pattern as evidence repair, and the Collector's normal path came back to 28 143 bytes. Profiles whose locations have no weather script read that document on every run.
+
 ## From pipeline to portable skill
 
 Between the two editions, the pipeline also became a portable, vendor-neutral Agent skill:
@@ -124,7 +145,7 @@ Windows with PowerShell 7 is the verified reference implementation. Other platfo
 
 ## Real-code evidence
 
-Seven curated excerpts, re-cut from production `1b5c8a8`, each with truthful provenance and a `verbatim` / `adapted (privacy and scope redactions only)` label:
+Eight curated excerpts, each with truthful provenance and a `verbatim` / `adapted (privacy and scope redactions only)` label. `01`–`07` are cut from production `1b5c8a8`; `08` from `7daa53e`:
 
 | File | Theme | Label |
 | --- | --- | --- |
@@ -135,6 +156,7 @@ Seven curated excerpts, re-cut from production `1b5c8a8`, each with truthful pro
 | [code/05-context-budget-guard.ps1](code/05-context-budget-guard.ps1) | Normal-path read-chain assertions and per-stage instruction byte budgets | verbatim |
 | [code/06-settings-save-transaction.ps1](code/06-settings-save-transaction.ps1) | Settings save: validate → backup → write → read back → validate → roll back | verbatim |
 | [code/07-evidence-check-news-floor.ps1](code/07-evidence-check-news-floor.ps1) | Deterministic evidence check: news floor, structural URL check, required fields | verbatim |
+| [code/08-station-air-estimate.ps1](code/08-station-air-estimate.ps1) | Computed, not generated: morning PM2.5 estimate from station measurements, fallback, honest "no data" states | verbatim |
 
 See [code/README.md](code/README.md) for production source references, exact line ranges, and the redaction list. The v1 excerpts (baseline `15b539a`) remain in Git history; they were re-cut to represent the current implementation, not because they became untrue.
 
@@ -142,7 +164,8 @@ See [code/README.md](code/README.md) for production source references, exact lin
 
 Validation evidence is recorded with explicit layers, and nothing is presented as something it is not:
 
-- **Executable tests.** A local PowerShell suite plus JavaScript tests: 30 test files at the baseline, of which 27 are PowerShell test entry points. All 27 passed in the pre-merge Windows acceptance run. The suite covers gates and status, stage context and context budgets, config and migration, Settings, Doctor and runtime paths, knowledge and recaps, and prompt and documentation contracts.
+- **Executable tests.** A local PowerShell suite plus JavaScript tests, run through one entry point in three tiers (fast, integration, full). At `7daa53e` the full tier has 35 PowerShell test entry points, which also run 4 JavaScript test files, and takes about 90 seconds in parallel. The suite covers gates and status, stage context and context budgets, config and migration, Settings, Doctor and runtime paths, knowledge and recaps, weather and weekday-section scripts, and prompt and documentation contracts.
+- **Offline backtests.** The air-quality method was chosen and tuned on a year of recorded station measurements, and the solar terms and holidays were checked against official dates. These are data checks, not runtime statistics; see [docs/validation.md](docs/validation.md#offline-backtests).
 - **End-to-end smoke.** A fake-mail run on Windows went from valid evidence through finalize and the delivery entry to `email_sent=true`. It used a temporary data root, touched no real data, and sent no real mail.
 - **Manual review.** Editorial quality is judged by the owner reading real briefs. A scored rubric exists as a draft and is not yet used as a gate.
 - **Design truth vs runtime truth.** This showcase describes the repository's design and contracts. It does not claim live runtime statistics, token or cost measurements, run durations, or delivery success rates.
@@ -151,7 +174,7 @@ The production repository does not configure CI; the tests are local and re-runn
 
 ## Design decisions
 
-Why the pipeline looks the way it does is documented in [docs/design-decisions.md](docs/design-decisions.md). It covers the evidence handoff, the hard validator gate, the explicit approval state, the repair gradient, the design/runtime boundary, the product-layer decisions, and the quality-first corrections. The external knowledge behind the editorial standard is summarized in [docs/editorial-quality.md](docs/editorial-quality.md).
+Why the pipeline looks the way it does is documented in [docs/design-decisions.md](docs/design-decisions.md). It covers the evidence handoff, the hard validator gate, the explicit approval state, the repair gradient, the design/runtime boundary, the product-layer decisions, the quality-first corrections, and the computed-facts decisions. The external knowledge behind the editorial standard is summarized in [docs/editorial-quality.md](docs/editorial-quality.md).
 
 ## Scope and privacy
 

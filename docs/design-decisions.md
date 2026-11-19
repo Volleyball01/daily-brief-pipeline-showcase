@@ -1,8 +1,8 @@
 # Design Decisions
 
-This document explains why the pipeline is shaped the way it is. It describes the private production repository's design and contracts at `1b5c8a8` (2026-10-07). It makes no claim about a specific runtime's execution history.
+This document explains why the pipeline is shaped the way it is. It describes the private production repository's design and contracts at `1b5c8a8` (2026-10-07) for decisions 1–15, and at `7daa53e` (2026-11-19) for decisions 16–19. It makes no claim about a specific runtime's execution history.
 
-Decisions 1–5 come from v1 and are updated where the implementation changed. Decisions 6–10 come from the product-layer upgrade. Decisions 11–15 come from the editorial quality upgrade.
+Decisions 1–5 come from v1 and are updated where the implementation changed. Decisions 6–10 come from the product-layer upgrade. Decisions 11–15 come from the editorial quality upgrade. Decisions 16–19 come from the computed-facts work in the third edition.
 
 ## Part I — Reliability core
 
@@ -171,9 +171,29 @@ research → a hundred if/else rules → read in full every morning
 
 See [editorial-quality.md](editorial-quality.md) for the distilled principles.
 
+## Part IV — Computed facts
+
+### 16. Compute what has a definite answer; let the AI select and phrase
+
+Weather values, air quality, solar terms, public holidays, and the outdoor extras all have a definite answer for a given day and place. An AI asked to produce them can be fluent and wrong, and nothing downstream would notice. So scripts compute them, tests check them, and the brief receives them as fixed lines. The AI keeps the work only a reader-aware writer can do: choosing what matters today and saying it plainly.
+
+This extends decision 15. Engineering knowledge stays with the maintainer; now facts with a definite answer stay with scripts as well.
+
+### 17. Choose methods with data, starting from a naive baseline
+
+The air-quality estimate was not designed in the abstract. Candidate sources were compared on 28 days of measurements, then candidate methods were replayed over a full year with an "always good" baseline in the table. The adopted method, the last six hours of station measurements plus a small correction, beat a full atmospheric model. The correction was then checked against one estimated only from past data, so it is not fitted after the fact. Details are in [validation.md](validation.md#offline-backtests).
+
+### 18. Remove a whole section rather than ship one wrong fact
+
+Weekday sections draw on fast-changing sources such as event listings, charts, and search trends. A script compares the written section with the verified evidence; on any mismatch the whole section is removed. The section is optional; trust in the brief is not. Weather, news, and sending never depend on it.
+
+### 19. Load exception rules when the exception happens
+
+Rules for failures are long and rarely used: how to search when the weather script fails, how to check a warning by hand, how the script judged each source. Kept in the normal read chain, they cost attention every morning. They now live in an on-demand document that the Collector reads only when one of the listed conditions occurs, the same pattern as evidence repair. Profiles without a weather script read it every run; that cost is stated, not hidden.
+
 ## Deliberately out of scope
 
 - Weekly, monthly, archive, and knowledge subsystems exist in production and are mentioned only at summary level. Their prompts and code are not part of this showcase.
 - The Settings UI and Doctor are described, not shown. No screenshots are published.
 - No real outputs, emails, status files, evidence files, Profile names, locations, or runtime artifacts are published.
-- No benchmark numbers, run durations, token or cost measurements, model-routing details, or delivery statistics are published. Prompt sizes are published because they are design facts measured from the repository.
+- No benchmark numbers, run durations, token or cost measurements, model-routing details, or delivery statistics are published. Prompt sizes are published because they are design facts measured from the repository. The offline backtests in [validation.md](validation.md#offline-backtests) are published because they explain why a computed fact uses the method it uses; they are checks on recorded data, not measurements of the pipeline.
